@@ -11,7 +11,7 @@ def procesar_transacciones():
     """
     archivo_csv = "archivo.csv"
     balance = 0
-    max_monto = float('-inf')  # Inicializamos con el menor valor posible
+    max_monto = 0  # Inicializamos con el menor valor posible 0
     max_id = None
     creditos = 0
     debitos = 0
@@ -21,12 +21,12 @@ def procesar_transacciones():
             reader = csv.DictReader(file)
             for row in reader:
                 monto = float(row['monto'])
-                tipo = row['tipo'].strip().lower()  # Normalizar el tipo de transacción
+                tipo = row['tipo'].strip().lower()  # Normalizar el tipo de transacción a letras minúsculas
                 
-                if tipo == 'crédito':
+                if tipo == 'crédito': #Si encuentra un credito  lo suma en el balance y tambien el count de créditos
                     balance += monto
                     creditos += 1
-                elif tipo == 'débito':
+                elif tipo == 'débito': # Lo mismo en débito
                     balance -= monto
                     debitos += 1
                 
@@ -37,7 +37,7 @@ def procesar_transacciones():
         print("Balance Final:", round(balance, 2))
         print("Mayor Transacción: ID", max_id, "Monto", round(max_monto, 2))
         print("Créditos:", creditos, "Débitos:", debitos)
-    
+    # Manejo algunos errores como archivo no encontrado,s i el csv no tiene la correcta estrucutra o si los datos estan mal.
     except FileNotFoundError:
         print("Error: El archivo", archivo_csv, "no se encontró.")
     except KeyError:
